@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<restful>
+	<!--example
+	<api name="hello" class="my.HelloApi"/> 
+	 -->
+	<api name="CourseList" class="my.course.CourseListApi"/> 
+	<api name="TeacherLogin" class="my.teacher.TeacherLoginApi"/> 
+
+</restful>
+
