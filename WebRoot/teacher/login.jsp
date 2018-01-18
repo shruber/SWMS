@@ -32,18 +32,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			min-height:360px;
 		}
 		
-		#main-panel .item
-		{
-			display:inline-block;
-			width:20%;
-			margin: 10px;
-			height: 100px;
-			background-color: #DDD;
-			border-radius: 8px;
-			padding: 4px;
-			text-align:center;
-		}
-		
 		.m-input
 		{
 			margin:4px;
@@ -70,8 +58,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			<button class='m-button' onclick="MAIN.login()" >登录</button>
   			<lable class='note'></lable>
   		</div>
-  	
-  		
   	</div>
 
   </body>
@@ -106,8 +92,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	//初始化
 	MAIN.panel.ready(function(){
-		
-
 	});
 </script>
 

@@ -54,9 +54,6 @@ public class TeacherLoginApi extends AfRestfulApi
 			httpSession.setAttribute("role", "teacher");
 			httpSession.setAttribute("id", row);//此处为了方便，把一行信息都放在session中，正常不该如此；
 			
-
-			
-			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
