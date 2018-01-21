@@ -3,8 +3,14 @@
 	<!--example
 	<api name="hello" class="my.HelloApi"/> 
 	 -->
+	<!-- 课程列表 -->
 	<api name="CourseList" class="my.course.CourseListApi"/> 
+	
+	<!-- 老师相关接口 -->
 	<api name="TeacherLogin" class="my.teacher.TeacherLoginApi"/> 
 
+	<!-- 题目相关接口 -->
+	<api name="AssignmentSave" class="my.assignment.AssignmentSaveApi" /> 
+	<api name="AssignmentList" class="my.assignment.AssignmentListApi" /> 
 </restful>
 

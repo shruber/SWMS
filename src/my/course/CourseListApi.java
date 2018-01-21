@@ -4,6 +4,7 @@ import java.util.List;
 
 import my.ApiUtility;
 import my.dbutil.AfDbUtil;
+import my.dbutil.AfSqlWhere;
 
 import org.apache.log4j.Logger;
 
@@ -30,12 +31,20 @@ public class CourseListApi extends AfRestfulApi
 		String reason = "OK";
 		
 		JSONObject jsReq = new JSONObject(reqText);
-		
+
 		/* 构造查询条件 */
+		AfSqlWhere where = new AfSqlWhere();		
+		if(jsReq.has("teacher"))//检查jsReq中是否有teacher键：
+		{
+			//按教师ID查询
+			where.addExact("teacher", jsReq.getInt("teacher"));
+		}
+
 		JSONArray result = new JSONArray();
 		try
 		{
-			String sql = "FROM Course"; //HQL:大写的Course
+			String sql = "FROM Course" + where; //HQL:大写的Course
+			logger.debug("SQL: " + sql);
 			List rows = AfDbUtil.list(sql, false);
 			
 			result = new JSONArray(rows);
