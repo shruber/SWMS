@@ -12,5 +12,7 @@
 	<!-- 题目相关接口 -->
 	<api name="AssignmentSave" class="my.assignment.AssignmentSaveApi" /> 
 	<api name="AssignmentList" class="my.assignment.AssignmentListApi" /> 
+	
+	<api name="ExerciseList" class="my.exercise.ExerciseListApi" /> 
 </restful>
 

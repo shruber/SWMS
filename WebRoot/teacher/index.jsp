@@ -82,8 +82,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	padding: 4px;
 	cursor: pointer; /* 鼠标开关 */
 }
-
-.assignments .item:hover /* 鼠标移上来后变色 */ {
+/* 鼠标移上来后变色 */
+.assignments .item:hover
+{
 	background-color: #add;
 	color: #fff;
 }
@@ -228,7 +229,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		
   	}
   	
-  	ASSN.clicked = function(){};
+	ASSN.clicked = function ( dom )
+  	{
+  		var id = $(dom).attr("id1");
+  		location.href = "teacher/ExerciseList.jsp?assignment=" + id;
+  	}
   	
 
    
