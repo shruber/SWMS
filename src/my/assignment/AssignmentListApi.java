@@ -5,8 +5,8 @@ import java.util.List;
 import my.ApiUtility;
 import my.course.CourseListApi;
 import my.db.Teacher;
-import my.dbutil.AfDbUtil;
-import my.dbutil.AfSqlWhere;
+import my.dbutil.DBUtil;
+import my.dbutil.SqlWhere;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -40,11 +40,11 @@ public class AssignmentListApi extends AfRestfulApi
 			int course = jsReq.getInt("course");
 			
 			//根据课程ID查询相关的题目；
-			AfSqlWhere where = new AfSqlWhere();
+			SqlWhere where = new SqlWhere();
 			where.addExact("course", course);
 			String sql = "FROM Assignment " + where;
 			logger.debug("SQL: " + sql);
-			List rows = AfDbUtil.list(sql, false);
+			List rows = DBUtil.list(sql, false);
 			result = new JSONArray(rows);
 			
 		} catch (Exception e)

@@ -3,7 +3,7 @@ package my.dbutil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AfSqlWhere
+public class SqlWhere
 {
 	ArrayList<String> conditions = new ArrayList<String>();
 	

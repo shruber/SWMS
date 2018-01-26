@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'index.jsp' starting page</title>
+    <title>学生登录</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	
-	<jsp:include page="include.jsp" />
+	<jsp:include page="../include.jsp" />
 	
 	<style>	
 		#main-panel
@@ -32,65 +32,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			min-height:360px;
 		}
 		
-		#main-panel .item
+		.m-input
 		{
-			display:inline-block;
-			width:20%;
-			margin: 10px;
-			height: 100px;
-			background-color: #DDD;
-			border-radius: 8px;
-			padding: 4px;
-			text-align:center;
+			margin:4px;
+			padding:2px;
+			border:1px solid #ccc;
 		}
+	
+		.m-button
+		{
+			margin:4px;
+			padding:2px 10px;
+			border:1px solid #FFF;
+		}
+		
 	
 	</style>
 </head>
   
   <body>
-    <div id='head'>
-  		<a href='teacher/index.jsp'> 我是老师 </a>
-  		<a href='student/index.jsp'> 我是学生 </a>
-  	</div>
   	<div id='main-panel'>
-	
+  		<div id='login'>
+  			<input class='m-input username' placeholder='学号' /> <br>
+  			<input type='password' class='m-input password' placeholder='密码' /> <br>
+  			<button class='m-button' onclick="MAIN.login()" >登录</button>
+  			<lable class='note'></lable>
+  		</div>
   	</div>
 
   </body>
 <script>
 	var MAIN = {};
 	MAIN.panel = $("#main-panel");
-
-	//加载
-	MAIN.load = function()
+	
+	MAIN.login = function()
 	{
 		var req = {};
-		Af.rest("CourseList.api",req,function(ans){
+		req.id = $(".username").val();
+		req.password = $(".password").val();
+		
+		Af.rest("StudentLogin.api", req, function(ans){
 		
 			Af.trace(ans);
-			MAIN.show_item_list(ans.result);
+			Af.trace(typeof(ans.arrorCode));
+			Af.trace(typeof(0));
+			//error hint 
+ 			if(ans.errorCode != 0)
+			{
+				$(".note").html(ans.reason);
+				return;
+			}
+			
+			//success
+			location.href = "student/index.jsp";
+		
 		});
 	}
-	
-	//显示列表
-	MAIN.show_item_list = function(items)
-	{
-		var target = this.panel;
-		target.html("");	//清空面板
-		for(var i = 0; i < items.length; i++)
-		{
-			var it = items[i];
-			var str = "<div class='item'>" 
-				+ it.title
-				+ "</div>";
-			target.append(str);
-		}
-	}
-	
+
+
 	//初始化
 	MAIN.panel.ready(function(){
-		
-		MAIN.load();
 	});
 </script>
 

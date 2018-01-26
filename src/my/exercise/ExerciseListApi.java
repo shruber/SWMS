@@ -5,8 +5,9 @@ import java.util.List;
 import my.ApiUtility;
 import my.course.CourseListApi;
 import my.db.Teacher;
-import my.dbutil.AfDbUtil;
-import my.dbutil.AfSqlWhere;
+import my.dbutil.DBCol;
+import my.dbutil.DBUtil;
+import my.dbutil.SqlWhere;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -36,7 +37,7 @@ public class ExerciseListApi extends AfRestfulApi
 		JSONObject jsReq = new JSONObject(reqText);
 		
 		/* 构造查询条件  */
-		AfSqlWhere where = new AfSqlWhere();
+		SqlWhere where = new SqlWhere();
 		if(jsReq.has("course"))
 		{
 			//按课程查询
@@ -58,10 +59,15 @@ public class ExerciseListApi extends AfRestfulApi
 		JSONArray result = new JSONArray();
 		try
 		{
-			String sql = "FROM Exercise" + where;//HQL:大写的表名开头字母
+/*			String sql = "FROM Exercise" + where;//HQL:大写的表名开头字母
 			logger.debug("SQL: " + sql);
-			List rows = AfDbUtil.list(sql, false);
+			List rows = DBUtil.list(sql, false);
 			result = new JSONArray(rows);
+			*/
+			
+			//联合查询
+			result = list(where);
+			
 			
 		} catch (Exception e)
 		{
@@ -76,4 +82,59 @@ public class ExerciseListApi extends AfRestfulApi
 		jsReply.put("result", result);
 		return jsReply.toString();
 	}
+	
+	//联合exercise 和 student表进行查询，把学生姓名加进来
+	private JSONArray list (SqlWhere where) throws Exception
+	{
+		String sql = "SELECT a.id,a.title, a.student, a.score, a.status, b.displayName,a.assignment, a.timeCreated "
+					+ " FROM exercise a JOIN student b ON a.student=b.id "
+					+ where;
+		logger.debug("SQL：" + sql);
+		
+		JSONArray result = new JSONArray();
+		List rawdata = DBUtil.list(sql,true);
+		
+		for(int i=0; i<rawdata.size(); i++)
+		{
+			Object[] values = (Object[])rawdata.get(i);//取出一行；
+			int k = 0;
+			JSONObject json = new JSONObject();
+			
+			json.put("id", DBCol.asInt(values[k++], 0));
+			json.put("title", DBCol.asString(values[k++], ""));
+			json.put("student", DBCol.asString(values[k++], ""));
+			json.put("score", DBCol.asInt(values[k++], 0));
+			json.put("status", DBCol.asInt(values[k++], 0));
+			json.put("studentName", DBCol.asString(values[k++], ""));
+			json.put("assignment", DBCol.asInt( values[k++],0));
+			json.put("timeCreated", DBCol.asString( values[k++],""));
+			
+			result.put(json);
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

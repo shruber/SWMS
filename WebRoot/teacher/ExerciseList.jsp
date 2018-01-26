@@ -51,7 +51,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<thead>
 					<tr>
 						<th> 学号 </th>
+						<th> 姓名 </th>
 						<th> 状态 </th>
+						<th> 得分 </th>
 						<th> 查看 </th>
 					</tr>
 				</thead>
@@ -66,15 +68,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script>
 	var MAIN = {};
 	MAIN.panel = $("#main-panel");
-	//MAIN.assignment = <%= my.jsp.JspUtil.getAssignment(request) %>;
-	<% 
-		int assignment = request.getAttribute("assignment");
-		String sql = "FROM Assignment WHERE id=" + assignment;
-		Assignment row = (Assignment) AfDbUtil.get(sql, false);
-		return new JSONObject(row);
-	 %>
-	MAIN.assignment = <%request.getAttribute("assignment")%>;
-	
+	MAIN.assignment = <%= my.jsp.JspUtil.getAssignment(request) %>;
+
+
 	MAIN.show_assignment = function(it)
 	{
 		var p = $(".assignment");
@@ -101,7 +97,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var it = items[i];
 			var str = "<tr class='item' id1='##1' onclick='COURSES.clicked(thos)'>"
 				+ "<td>" + it.student + "</td>"
+				+ "<td>" + it.studentName + "</td>"
 				+ "<td>" + MAIN.status(it.status) + "</td>"
+				+ "<td>" + it.score + "</td>"
 				+ "<td>" + "xxx" + "</td>"
 				+ "</tr>";
 			str = str.replace(/##1/g, it.id);

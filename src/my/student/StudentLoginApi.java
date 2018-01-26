@@ -1,9 +1,7 @@
-package my.teacher;
-
-import java.util.List;
+package my.student;
 
 import my.ApiUtility;
-import my.db.Teacher;
+import my.db.Student;
 import my.dbutil.DBUtil;
 import my.dbutil.SqlWhere;
 
@@ -15,14 +13,14 @@ import org.json.JSONObject;
 /*
  *teacher login; 
  */
-public class TeacherLoginApi extends AfRestfulApi
+public class StudentLoginApi extends AfRestfulApi
 {
-	static Logger logger = Logger.getLogger(TeacherLoginApi.class);
+	static Logger logger = Logger.getLogger(StudentLoginApi.class);
 
 	@Override
 	public String execute(String reqText) throws Exception
 	{
-		logger.debug("............TeacherLoginApi execute().............");
+		logger.debug("............StudentLoginApi execute().............");
 		
 		String orgId = "NA";
 		
@@ -35,23 +33,23 @@ public class TeacherLoginApi extends AfRestfulApi
 		try
 		{
 			JSONObject jsReq = new JSONObject(reqText);
-			String username = jsReq.getString("username").trim();
+			String username = jsReq.getString("id").trim();
 			String password = jsReq.getString("password").trim();
 			
 			//检查用户名和密码是否正确；
 			SqlWhere where = new SqlWhere();
-			where.addExact("username", username);
-			String sql = "FROM Teacher" + where;
+			where.addExact("id", username);
+			String sql = "FROM Student" + where;
 			logger.debug("SQL:"+sql);
 			
-			Teacher row = (Teacher) DBUtil.get(sql, false);
+			Student row = (Student) DBUtil.get(sql, false);
 			if(row == null)
 				throw new Exception("无此用户");
 			if(!password.equals(row.getPassword()))
 				throw new Exception("密码错误");
 			
 			//校验成功，把当前用户的数据放在session中；
-			httpSession.setAttribute("role", "teacher");
+			httpSession.setAttribute("role", "student");
 			httpSession.setAttribute("user", row);//此处为了方便，把一行信息都放在session中，正常不该如此；
 			
 			//session测试

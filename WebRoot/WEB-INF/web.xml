@@ -19,4 +19,14 @@
   	<url-pattern>*.api</url-pattern>
   </filter-mapping>
  
+ 	<!--  通用文件上传支持 -->
+	<servlet>
+	    <servlet-name>CommonFileUpload</servlet-name>
+	    <servlet-class>af.fileupload.CommonFileUpload</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CommonFileUpload</servlet-name>
+	    <url-pattern>/CommonFileUpload</url-pattern>
+	</servlet-mapping>	
+ 
 </web-app>

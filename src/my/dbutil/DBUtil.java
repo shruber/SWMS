@@ -9,7 +9,7 @@ import my.db.HibernateSessionFactory;
 import org.hibernate.Session;
 
 
-public class AfDbUtil
+public class DBUtil
 {
 	public static Timestamp now () 
 	{

@@ -3,8 +3,8 @@ package my.course;
 import java.util.List;
 
 import my.ApiUtility;
-import my.dbutil.AfDbUtil;
-import my.dbutil.AfSqlWhere;
+import my.dbutil.DBUtil;
+import my.dbutil.SqlWhere;
 
 import org.apache.log4j.Logger;
 
@@ -33,7 +33,7 @@ public class CourseListApi extends AfRestfulApi
 		JSONObject jsReq = new JSONObject(reqText);
 
 		/* 构造查询条件 */
-		AfSqlWhere where = new AfSqlWhere();		
+		SqlWhere where = new SqlWhere();		
 		if(jsReq.has("teacher"))//检查jsReq中是否有teacher键：
 		{
 			//按教师ID查询
@@ -45,7 +45,7 @@ public class CourseListApi extends AfRestfulApi
 		{
 			String sql = "FROM Course" + where; //HQL:大写的Course
 			logger.debug("SQL: " + sql);
-			List rows = AfDbUtil.list(sql, false);
+			List rows = DBUtil.list(sql, false);
 			
 			result = new JSONArray(rows);
 			

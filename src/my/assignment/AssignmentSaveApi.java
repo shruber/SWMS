@@ -4,9 +4,10 @@ import java.util.List;
 
 import my.ApiUtility;
 import my.db.Assignment;
+import my.db.Exercise;
 import my.db.Teacher;
-import my.dbutil.AfDbUtil;
-import my.dbutil.AfSqlWhere;
+import my.dbutil.DBUtil;
+import my.dbutil.SqlWhere;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -44,11 +45,13 @@ public class AssignmentSaveApi extends AfRestfulApi
 			row.setCourse( course);
 			row.setDescr(descr);
 			row.setTitle(title);
-			row.setTimeCreated(AfDbUtil.now());
-			AfDbUtil.save( row );
+			row.setTimeCreated(DBUtil.now());
+			DBUtil.save( row );
 			
 			result = new JSONObject ( row );	
 			
+			//同时往exercise里填作业，作业的状态为0
+			addExerciseList(row);			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -62,4 +65,30 @@ public class AssignmentSaveApi extends AfRestfulApi
 		jsReply.put("result", result);
 		return jsReply.toString();
 	}
+	
+	private void addExerciseList(Assignment a) throws Exception
+	{
+		//
+		String s1 = "SELECT id FROM student";
+		List<String> students = DBUtil.list(s1, true);
+		
+		//
+		for(String student : students)
+		{
+			Exercise row = new Exercise();
+			row.setAssignment(a.getId());
+			row.setCourse(a.getCourse());
+			row.setScore((short)0);
+			row.setStatus((short)0);
+			row.setStorePath(null);
+			row.setStudent(student);
+			row.setTeachear(a.getTeacher());
+			row.setTimeCreated(DBUtil.now());
+			row.setTitle(a.getTitle());
+			
+			DBUtil.save(row);
+		}
+	}
+	
+	
 }
