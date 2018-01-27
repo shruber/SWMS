@@ -24,7 +24,6 @@ public class ExerciseUploadHandler extends UploadHandler
 	static Logger logger = Logger.getLogger(ExerciseUploadHandler.class);
 	
 	int exercise = 0;
-	
 
 	public ExerciseUploadHandler(HttpServletRequest httpReq)
 	{
@@ -50,7 +49,8 @@ public class ExerciseUploadHandler extends UploadHandler
 		//删除上一次上传的文件
 		try
 		{
-			File f = new File(Config.appPath, row.getStorePath());
+			String path = httpReq.getSession().getServletContext().getRealPath("/");
+			File f = new File(path, row.getStorePath());
 			FileUtils.deleteQuietly(f);
 			
 		}catch(Exception e)
@@ -63,25 +63,29 @@ public class ExerciseUploadHandler extends UploadHandler
 		//String storePath = "files/" + CommonUtility.date2Path2() + tmpFile.getName();
 		String storePath = "files/" + CommonUtility.date2Path2() + fileinfo.fileName;
 		
-		//调试添加内容，非原版
-		//String path = httpReq.getContextPath();
-		String userDirPath = System.getProperty("user.dir");
-		String path = userDirPath + "/webRoot";
+		//重点在于获得WebRoot的绝对路径；
+		String path = httpReq.getSession().getServletContext().getRealPath("/");
+		logger.debug("Exercise handler WebRootPath: " + path);
+		
+		//String path2 = getRealPath("/files");
+		
 		
 		File dstFile = new File(path, storePath);
+
 		dstFile.getParentFile().mkdirs();
 		
 		FileUtils.moveFile(tmpFile, dstFile);
 		
+		
+		
 		//更新数据库
-		row.setStorePath(dstFile.toString());
-		row.setStatus((short)1);
-		DBUtil.update(row);
-		logger.debug("文件转移到： " + dstFile);
+		row.setStorePath( storePath );
+		row.setStatus( (short) 1);
+		DBUtil.update( row );
+		logger.debug("文件转移到: " + dstFile);
 		
 		JSONObject result = new JSONObject();
-		result.put("storePath", dstFile.toString());
-		
+		result.put("storePath", storePath);
 		return result;
 	}
 	
