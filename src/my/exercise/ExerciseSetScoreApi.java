@@ -1,6 +1,7 @@
 package my.exercise;
 import my.ApiUtility;
 import my.db.Exercise;
+import my.db.Teacher;
 import my.dbutil.DBUtil;
 
 import org.apache.log4j.Logger;
@@ -22,6 +23,14 @@ public class ExerciseSetScoreApi extends AfRestfulApi
 		int errorCode = 0;
 		String reason = "OK";
 		
+		//权限检查 1：看当前登录是否是一个老师
+		String role = (String)httpSession.getAttribute("role");
+		if(! "teacher".equals(role))
+			return ApiUtility.reply(-1, "请以老师的身份登录");
+		
+		//获得当前老师的信息
+		Teacher user = (Teacher)httpSession.getAttribute("user");
+		
 		/* 查询 */
 		JSONArray result = new JSONArray();
 		try
@@ -38,6 +47,10 @@ public class ExerciseSetScoreApi extends AfRestfulApi
 			if(row == null)
 				throw new Exception("不存在该作业 id= " + exercise);
 			
+			//权限检查 2：这个作业（课程）是否由该老师负责
+			if(row.getTeachear() != user.getId())
+				throw new Exception("该作业不归您负责！");
+
 			row.setScore((short) score);
 			DBUtil.update(row);
 

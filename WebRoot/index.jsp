@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'index.jsp' starting page</title>
+    <title>作业管理系统：首页</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -32,16 +32,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			min-height:360px;
 		}
 		
-		#main-panel .item
+		#head
 		{
 			display:inline-block;
-			width:20%;
-			margin: 10px;
-			height: 100px;
-			background-color: #DDD;
+			margin:10px auto auto auto;
+			width:100%;
 			border-radius: 8px;
 			padding: 4px;
 			text-align:center;
+		}
+		
+		#head a
+		{
+			font-size:180%;
 		}
 	
 	</style>
@@ -50,6 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <div id='head'>
   		<a href='teacher/index.jsp'> 我是老师 </a>
+  		<a>&nbsp</a>
   		<a href='student/index.jsp'> 我是学生 </a>
   	</div>
   	<div id='main-panel'>
@@ -64,27 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	//加载
 	MAIN.load = function()
 	{
-		var req = {};
-		Af.rest("CourseList.api",req,function(ans){
-		
-			Af.trace(ans);
-			MAIN.show_item_list(ans.result);
-		});
-	}
-	
-	//显示列表
-	MAIN.show_item_list = function(items)
-	{
-		var target = this.panel;
-		target.html("");	//清空面板
-		for(var i = 0; i < items.length; i++)
-		{
-			var it = items[i];
-			var str = "<div class='item'>" 
-				+ it.title
-				+ "</div>";
-			target.append(str);
-		}
+
 	}
 	
 	//初始化

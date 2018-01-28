@@ -32,6 +32,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			min-height:360px;
 		}
 		
+		#login
+		{
+			text-align:center;
+		}
+		
 		.m-input
 		{
 			margin:4px;
@@ -46,13 +51,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			border:1px solid #FFF;
 		}
 		
+		.login-title
+		{
+			margin:4px;
+			padding:2px 10px;
+			border:1px solid #FFF;
+		}
 	
 	</style>
 </head>
   
   <body>
   	<div id='main-panel'>
-  		<div id='login'>
+  	  	<p>作业管理系统</p>
+  		<div id='login' onkeydown="MAIN.onEnterDown()">
+  			<p class='login-title'>教师登录  <a>&nbsp&nbsp</a></p> <br>
   			<input class='m-input username' placeholder='用户名' /> <br>
   			<input type='password' class='m-input password' placeholder='密码' /> <br>
   			<button class='m-button' onclick="MAIN.login()" >登录</button>
@@ -65,11 +78,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var MAIN = {};
 	MAIN.panel = $("#main-panel");
 	
+ 	MAIN.onEnterDown = function()
+ 	{ 
+		if(window.event.keyCode == 13)
+		{ 
+			MAIN.login();
+		}
+	} 
+	
 	MAIN.login = function()
 	{
 		var req = {};
 		req.username = $(".username").val();
 		req.password = $(".password").val();
+		
+		if(req.username == "" || req.password == "")
+		{
+			toastr.error("用户名或密码不能为空"); 
+			return;
+		}
 		
 		Af.rest("TeacherLogin.api", req, function(ans){
 		
