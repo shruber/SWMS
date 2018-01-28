@@ -55,6 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th> 状态 </th>
 						<th> 得分 </th>
 						<th> 查看 </th>
+						<th> 操作 </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -63,6 +64,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</table>			
 		</div>
 	</div>
+	
+	<!-- 设置分数对话框 -->
+	<jsp:include page="dlg_score.jsp"></jsp:include>
 </body>
 
 <script>
@@ -95,12 +99,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		for(var i=0; i<items.length; i++)
 		{
 			var it = items[i];
-			var str = "<tr class='item' id1='##1' onclick='COURSES.clicked(thos)'>"
+			var download = "<a href='" + it.storePath + "'> 查看 </a>"; //作业文件的url
+			var str = "<tr class='item' id1='##1' >"
 				+ "<td>" + it.student + "</td>"
 				+ "<td>" + it.studentName + "</td>"
 				+ "<td>" + MAIN.status(it.status) + "</td>"
 				+ "<td>" + it.score + "</td>"
-				+ "<td>" + "xxx" + "</td>"
+				+ "<td>" + ( it.status == 0 ? "-" : download ) + "</td>"
+				+ "<td>" + "<button id1='##1' onclick='MAIN.set_score(this)'> 评分 </button>" + "</td>"
 				+ "</tr>";
 			str = str.replace(/##1/g, it.id);
 			target.append(str);
@@ -113,6 +119,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(s==1) return "已提交";
 		if(s==100) return "OK";
 	}
+	
+	//设置分数
+	MAIN.set_score = function(e)
+	{
+		var id = $(e).attr("id1");
+		DLG_SCORE.show(id);
+	}
+	
 	
 	//初始化
 	MAIN.panel.ready(function(){

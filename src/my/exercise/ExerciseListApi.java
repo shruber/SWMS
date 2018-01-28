@@ -86,7 +86,7 @@ public class ExerciseListApi extends AfRestfulApi
 	//联合exercise 和 student表进行查询，把学生姓名加进来
 	private JSONArray list (SqlWhere where) throws Exception
 	{
-		String sql = "SELECT a.id,a.title, a.student, a.score, a.status, b.displayName,a.assignment, a.timeCreated "
+		String sql = "SELECT a.id,a.title, a.student, a.score, a.status, b.displayName,a.assignment, a.timeCreated, a.storePath"
 					+ " FROM exercise a JOIN student b ON a.student=b.id "
 					+ where;
 		logger.debug("SQL：" + sql);
@@ -108,6 +108,7 @@ public class ExerciseListApi extends AfRestfulApi
 			json.put("studentName", DBCol.asString(values[k++], ""));
 			json.put("assignment", DBCol.asInt( values[k++],0));
 			json.put("timeCreated", DBCol.asString( values[k++],""));
+			json.put("storePath", DBCol.asString( values[k++],""));
 			
 			result.put(json);
 		}

@@ -16,7 +16,7 @@
 	<api name="ExerciseList" class="my.exercise.ExerciseListApi" /> 
 		
 	<api name="StudentLogin" class="my.student.StudentLoginApi" /> 
-	
-	StudentLoginApi
+	<api name="ExerciseSetScore" class="my.exercise.ExerciseSetScoreApi" /> 
+
 </restful>
 
