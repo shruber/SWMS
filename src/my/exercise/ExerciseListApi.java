@@ -3,8 +3,7 @@ package my.exercise;
 import java.util.List;
 
 import my.ApiUtility;
-import my.course.CourseListApi;
-import my.db.Teacher;
+
 import my.dbutil.DBCol;
 import my.dbutil.DBUtil;
 import my.dbutil.SqlWhere;

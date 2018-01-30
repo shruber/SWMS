@@ -5,11 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import my.Config;
 import my.db.Exercise;
 import my.db.Student;
 import my.dbutil.DBUtil;
-import my.util.CommonUtility;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -80,7 +78,7 @@ public class ExerciseUploadHandler extends UploadHandler
 		//删除生成的临时文件；
 		try
 		{
-			FileUtils.deleteQuietly(tmpFile);	
+			FileUtils.deleteQuietly(tmpFile);
 		}catch(Exception e)
 		{
 			
