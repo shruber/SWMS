@@ -79,7 +79,7 @@
 			}
 			
 			//success
-			location.href = "student/login.jsp";
+			location.href = "teacher/login.jsp";
 			});
 	};
 	

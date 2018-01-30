@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import my.Config;
 import my.db.Exercise;
+import my.db.Student;
 import my.dbutil.DBUtil;
 import my.util.CommonUtility;
 
@@ -46,6 +47,9 @@ public class ExerciseUploadHandler extends UploadHandler
 		if(row == null)
 			throw new Exception("无效的作业ID，" + exercise);
 		
+		//从row中取得assignment的id；
+		Integer assiId = row.getAssignment();
+		
 		//删除上一次上传的文件
 		try
 		{
@@ -60,19 +64,27 @@ public class ExerciseUploadHandler extends UploadHandler
 		
 		//转移文件
 		File tmpFile = fileinfo.tmpFile;
-		String storePath = "files/" + CommonUtility.date2Path2() + fileinfo.fileName;
-		
-		//重点在于获得WebRoot的绝对路径；
+
+		Student stu = (Student)httpReq.getSession().getAttribute("user");
+		String storePath = "files/" +  assiId + "/" + stu.getId() + "/" + fileinfo.fileName;
+
+		//获得WebRoot的绝对路径；使用getRealPath不好，改方法已被丢弃，以后换其他的api；
 		String path = httpReq.getSession().getServletContext().getRealPath("/");
-		logger.debug("Exercise handler WebRootPath: " + path);
-		
+
 		File dstFile = new File(path, storePath);
 
 		dstFile.getParentFile().mkdirs();
-		
+
 		FileUtils.moveFile(tmpFile, dstFile);
-		
-		
+
+		//删除生成的临时文件；
+		try
+		{
+			FileUtils.deleteQuietly(tmpFile);	
+		}catch(Exception e)
+		{
+			
+		}
 		
 		//更新数据库
 		row.setStorePath( storePath );
@@ -84,9 +96,5 @@ public class ExerciseUploadHandler extends UploadHandler
 		result.put("storePath", storePath);
 		return result;
 	}
-	
-
-	
-	
 
 }

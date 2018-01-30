@@ -84,7 +84,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		{
 			MAIN.upload();
 		}
-	
 	}
 	
 	
@@ -113,7 +112,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			},
 			
 			/* 显示文件上传出错提示 */
-			error : function(context, error){},
+			error : function(context, error){
+				toastr.error("文件上传出错！");
+			},
 			
 			/* 文件上传已经成功 */
 			complete: function(message){
