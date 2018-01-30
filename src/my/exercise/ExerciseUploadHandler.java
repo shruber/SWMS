@@ -60,15 +60,11 @@ public class ExerciseUploadHandler extends UploadHandler
 		
 		//转移文件
 		File tmpFile = fileinfo.tmpFile;
-		//String storePath = "files/" + CommonUtility.date2Path2() + tmpFile.getName();
 		String storePath = "files/" + CommonUtility.date2Path2() + fileinfo.fileName;
 		
 		//重点在于获得WebRoot的绝对路径；
 		String path = httpReq.getSession().getServletContext().getRealPath("/");
 		logger.debug("Exercise handler WebRootPath: " + path);
-		
-		//String path2 = getRealPath("/files");
-		
 		
 		File dstFile = new File(path, storePath);
 

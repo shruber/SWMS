@@ -6,17 +6,20 @@
 	<!-- 课程列表 -->
 	<api name="CourseList" class="my.course.CourseListApi"/> 
 	
-	<!-- 老师相关接口 -->
+	<!-- 登录退出相关接口 -->
 	<api name="TeacherLogin" class="my.teacher.TeacherLoginApi"/> 
+	<api name="StudentLogin" class="my.student.StudentLoginApi" /> 
+	<api name="Logout" class="my.LogoutApi" /> 
+
+
 
 	<!-- 题目相关接口 -->
 	<api name="AssignmentSave" class="my.assignment.AssignmentSaveApi" /> 
 	<api name="AssignmentList" class="my.assignment.AssignmentListApi" /> 
 	
-	<api name="ExerciseList" class="my.exercise.ExerciseListApi" /> 
-		
-	<api name="StudentLogin" class="my.student.StudentLoginApi" /> 
+	<!-- 作业相关接口 -->
 	<api name="ExerciseSetScore" class="my.exercise.ExerciseSetScoreApi" /> 
+	<api name="ExerciseList" class="my.exercise.ExerciseListApi" /> 
 
 </restful>
 

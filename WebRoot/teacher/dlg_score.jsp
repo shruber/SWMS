@@ -11,8 +11,9 @@
             <div id="dlgOption-body" class="modal-body">
 
               		<input class="m-input score" type="text" style="width: 100%;margin: 10px 0px;" />
-              		           
+              		<p>分数范围在 0-250 之间</p>         
             </div>
+  
             <div class="modal-footer" style="text-align: right;">
                 <button type="button" class="btn btn-default" onclick="DLG_SCORE.ok()"> 确定 </button>
             </div>
@@ -45,11 +46,22 @@
 			req.exercise = this.exercise; //作业的ID
 			req.score = $(".score",this.dlg).val(); //老师给的评分
 			
-			Af.rest("ExerciseSetScore.api", req, function(ans){
-				DLG_SCORE.hide();
-				if(ans.errorCode != 0) {toastr.error(ans.reason); return;}
-			});
+			if(req.score == "")
+			{
+				toastr.error("分数不能为空！");
+				return;
+			}
 			
+			if(req.score >= 0 && req.score <= 250)
+			{
+				Af.rest("ExerciseSetScore.api", req, function(ans){
+					DLG_SCORE.hide();
+					if(ans.errorCode != 0) {toastr.error(ans.reason); return;}
+				});
+			}else
+			{
+				toastr.error("数据超出范围，请重新评分");
+			}
 		},
 		end_of_class: null
 	};

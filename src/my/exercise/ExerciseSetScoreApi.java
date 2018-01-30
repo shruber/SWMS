@@ -52,6 +52,7 @@ public class ExerciseSetScoreApi extends AfRestfulApi
 				throw new Exception("该作业不归您负责！");
 
 			row.setScore((short) score);
+			row.setStatus((short)100);
 			DBUtil.update(row);
 
 		} catch (Exception e)

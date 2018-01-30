@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<hr>
 		
 		<!-- 作业文件的上传 -->
-		<button class='m-button upload-button' onclick='MAIN.upload()'> 上传作业文件 </button>
+		<button class='m-button upload-button' onclick='MAIN.exerciseUpload()'> 上传作业文件 </button>
 		<label class='filename'> </label>
 		<div class='progressbar'> <div class='percent'></div> </div>
 	</div>
@@ -73,6 +73,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$(".progressbar").html(str);
 		}
 	}
+	
+	//在上传文件之前，加一个检测，如果作业已经被批改，则不可以上传；
+	MAIN.exerciseUpload = function()
+	{
+		if(MAIN.exerciseObj.status == 100)
+		{
+			toastr.error("作业已经被老师批改完成，无法重新上传！");
+		}else
+		{
+			MAIN.upload();
+		}
+	
+	}
+	
+	
 	
 	//上传文件
 	MAIN.upload = function()

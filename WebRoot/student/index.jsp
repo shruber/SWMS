@@ -198,10 +198,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				+ "<td>" + it.title + "</td>"
   				+ "<td>" + it.timeCreated.substr(0,11) + "</td>"
   				+ "<td>" + MAIN.status(it.status) + "</td>"
-  				+ "<td>" + it.score + "</td>"
+  				//+ "<td>" + it.score + "</td>"
+  				+ "<td> ##3 </td>"
   				+ "</tr>";
   				 
   			str = str.replace(/##1/g,it.id).replace(/##2/g, it.assignment);
+  			
+  			//如果作业未提交，分数显示为“-”
+  	 		if(it.status == 0 || it.status == 1)
+  			{
+  				str = str.replace(/##3/g,"-");
+  			}else
+  			{
+  				str = str.replace(/##3/g, it.score);
+  			}
+  			
   			target.append(str);
   		}
   	}
